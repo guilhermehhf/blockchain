@@ -18,13 +18,3 @@ class BlockChain():
     def print_blocks(self):
         for i in range(len(self.blocks)):
             print(self.blocks[i])
-
-    def isValid(self):
-        valid = True
-        for x in range(len(self.blockchain) - 1):
-            if(self.blockchain[x].getHash() != self.blockchain[x + 1].previous_hash):
-                print("Cadeia inválida")
-                valid = False
-                break
-        if(valid):
-            print("Cadeia Válida")
