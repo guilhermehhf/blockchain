@@ -1,11 +1,19 @@
-from audioop import add
 from blockchain import BlockChain
+from merkle_tree import MerkleTree
+# blockchain = BlockChain('block genesis')
 
-blockchain = BlockChain('block genesis')
+# def add_blocks(quantity_of_blocks):
+#     for i in range(quantity_of_blocks-1):
+#         blockchain.add_block(f'block {len(blockchain.blocks)}')
 
-def add_blocks(quantity_of_blocks):
-    for i in range(quantity_of_blocks-1):
-        blockchain.add_block(f'block {len(blockchain.blocks)}')
+# add_blocks(10)
+# blockchain.print_blocks()
 
-add_blocks(10)
-blockchain.print_blocks()
+mt = MerkleTree(['mt','mt2','mt3','mt4','mt5','mt6','mt7','mt8','mt9','mt10','mt11','mt12','mt13','mt14','mt15','mt16','mt17','mt18','mt19'])
+
+
+print(mt.transactions)
+print(len(mt.transactions))
+
+for node in mt.tree:
+    print(node)
