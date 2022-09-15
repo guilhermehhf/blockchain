@@ -2,6 +2,8 @@
 #create a class named Bloco with parameters index, transactions, timestamp, previous_hash, nonce
 import hashlib
 
+from merkle_tree import MerkleTree
+
 class Block:
     def __init__(self, index, transactions, timestamp, previous_hash, difficulty):
         self.index = index
@@ -15,9 +17,7 @@ class Block:
 
 
     def merkleRoot(self):
-        for i in range(len(self.transactions)-1):
-            hash1 = self.hash(self.transactions[i])
-            hash2 = self.hash(self.transactions[i+1])
+        return MerkleTree(self.transactions)
 
     def validHash(self):
         nonce = 1

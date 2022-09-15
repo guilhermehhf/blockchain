@@ -4,18 +4,26 @@ import random
 
 
 class Node:
-    def __init__(self, hash_left, hash_right):
-        self.parent = None
-        self.hash_left = hash_left
-        self.hash_right = hash_right
-        self.hash = self.node_hash() 
+    def __init__(self, **kwargs):
+        self.daddy = None
+        self.node_left = kwargs.get('node_left')
+        self.node_right = kwargs.get('node_right')
+        if(self.node_left != None and self.node_right != None):
+            self.node_left.daddy = self
+            self.node_right.daddy = self
+            self.hash = self.node_hash()
+        else:
+            self.hash = hashlib.sha256(kwargs.get('transaction').encode('utf8')).hexdigest()
 
     def node_hash(self):
-        hash = self.hash_left + self.hash_right
+        hash = f'{self.node_left.hash} + {self.node_right.hash}'
         return hashlib.sha256(hash.encode('utf8')).hexdigest()
 
     def __str__(self):
-        return f'Node\n hash_left: {self.hash_left}\n hash_right: {self.hash_right}\n hash: {self.hash}'
+        if(self.node_left != None and self.node_right != None):
+            return f'Node\n node_left: {self.node_left.hash}\n node_right: {self.node_right.hash}\n self.hash: {self.hash}'
+        else:
+            return f'Leaf: hash = {self.hash}'
 
 class MerkleTree:
     def __init__(self, transactions):
@@ -24,7 +32,7 @@ class MerkleTree:
         self.nodes = []
         self.add_ficticional_transactions()
         self.transactions_to_nodes()
-        self.fill_tree()
+        self.root = self.tree[-1]
 
     def log2(self, x):
         if x == 0:
@@ -35,25 +43,19 @@ class MerkleTree:
         return (math.ceil(self.log2(n)) == math.floor(self.log2(n)))
 
     def transactions_to_nodes(self):
-        for i in range(0,len(self.transactions),2):
-            hash1 = hashlib.sha256(self.transactions[i].encode('utf8')).hexdigest()
-            hash2 = hashlib.sha256(self.transactions[i+1].encode('utf8')).hexdigest()
-            node = Node(hash1, hash2)
+        aux = []
+        for transaction in self.transactions:
+            node = Node(transaction = transaction)
+            aux.append(node)
             self.tree.append(node)
 
-    def fill_tree(self):
-        nodes = self.tree.copy()
-        root = None
-        while len(nodes) > 1:
-            node1 = nodes.shift().hash
-            node2 = nodes.shift().hash
-            aux = Node(node1, node2)
-            self.tree.append(aux)
-
-
-        list_of_nodes = self.transactions
-        while not list_of_nodes:
-            aux = list_of_nodes.shift()
+        
+        while len(aux) > 1:
+            node_left = aux.pop(0)
+            node_right = aux.pop(0)
+            node = Node(node_left = node_left, node_right = node_right)
+            aux.append(node)
+            self.tree.append(node)
 
 
     def add_ficticional_transactions(self):
