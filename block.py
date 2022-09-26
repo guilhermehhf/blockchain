@@ -5,25 +5,22 @@ import hashlib
 from merkle_tree import MerkleTree
 
 class Block:
-    def __init__(self, index, transactions, timestamp, previous_hash, difficulty):
+    def __init__(self, index, transactions, timestamp, previous_hash, difficult):
         self.index = index
         self.transactions = transactions
         self.timestamp = timestamp
         self.previous_hash = previous_hash
+        self.merkle_tree = MerkleTree(self.transactions)
+        self.merkle_root = self.merkle_tree.root
+        self.difficult = difficult
         self.nonce = self.validHash()
         self.hash = self.get_hash()
-        self.merkleRoot = self.merkleRoot()
-        self.difficulty = self.difficulty
-
-
-    def merkleRoot(self):
-        return MerkleTree(self.transactions)
 
     def validHash(self):
         nonce = 1
         number_of_zeros = number_of_zeros+"0"*(self.difficult-1)
         while(True):
-            string = f'{self.index} {self.transactions} {self.timestamp} {self.previous_hash} {nonce}'
+            string = f'{self.index} {self.transactions} {self.timestamp} {self.previous_hash} {nonce} {self.merkle_root.hash}'
             hash = hashlib.sha256(string.encode()).hexdigest()
             if(hash.startswith(number_of_zeros)):
                 break
@@ -31,7 +28,7 @@ class Block:
         return nonce
 
     def get_hash(self):
-        string = f'{self.index} {self.transactions} {self.timestamp} {self.previous_hash} {self.nonce}'
+        string = f'{self.index} {self.transactions} {self.timestamp} {self.previous_hash} {self.nonce} {self.merkle_root.hash}'
         return hashlib.sha256(string.encode()).hexdigest()
 
     def hash(self, value):
