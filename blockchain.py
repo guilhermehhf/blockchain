@@ -35,30 +35,39 @@ class BlockChain():
             sum = -abs(transactions[i].message)
             sender = transactions[i].sender
 
-            for j in range(i - 1, 0, -1):
-                if sender == transactions[j].sender:
-                    sum = sum - transactions[j].message
-                elif sender == transactions[j].to:
-                    sum = sum + transactions[j].message
+            self.test(sum,sender,transactions[:i-1])
+
+            # for j in range(i - 1, 0, -1):
+            #     sum = self.sub_or_add(sum, sender, transactions[j])
                 
-                if sum >= 0:
-                    break
+            #     if sum >= 0:
+            #         break
 
-            if sum < 0:
-                for block in self.blocks:
-                    for transaction in block.transactions:
-                        if sender == transactions[j].sender:
-                            sum = sum - transactions[j].message
-                        elif sender == transactions[j].to:
-                            sum = sum + transactions[j].message
+            # if sum < 0:
+            #     for block in self.blocks:
+            #         for transaction in block.transactions:
+            #             sum = self.sub_or_add(sum, sender, transaction)
                         
-                        if sum >= 0:
-                            break
-                return {
-                    'bool': False,
-                    'message':f'A transação de {transactions[i].sender} para {transactions[i].to} de {transactions[i].message} não pode ser feita'}
+            #             if sum >= 0:
+            #                 break
+                
+            #         if sum >= 0:
+            #             break
+            #     return {
+            #         'bool': False,
+            #         'message':f'A transação de {transactions[i].sender} para {transactions[i].to} de {transactions[i].message} não pode ser feita'}
 
+    def test(self, sum, sender, transactions):
+        for j in range(len(transactions) - 1, 0, -1):
+            sum = self.sub_or_add(sum, sender, transactions[j])
+            if sum >= 0:
+                break
 
+    def sub_or_add(self, sum, sender, transaction):
+        if sender == transaction.sender:
+            return sum - transaction.message
+        elif sender == transaction.to:
+            return sum + transaction.message
             
     def compare_transaction_with_list_of_transactions(self, transaction, transactions_to_compare):
         return None
