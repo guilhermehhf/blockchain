@@ -13,7 +13,7 @@ class Node:
             self.node_right.daddy = self
             self.hash = self.node_hash()
         else:
-            self.hash = hashlib.sha256(kwargs.get('transaction').encode('utf8')).hexdigest()
+            self.hash = hashlib.sha256(str(kwargs.get('transaction')).encode('utf8')).hexdigest()
 
     def node_hash(self):
         hash = f'{self.node_left.hash} + {self.node_right.hash}'

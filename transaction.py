@@ -3,3 +3,5 @@ class Transaction():
         self.sender = sender
         self.to = to
         self.message = message
+    def __str__(self):
+        return f'{self.sender}->{self.to}:{self.message}'

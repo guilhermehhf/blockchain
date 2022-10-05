@@ -24,3 +24,18 @@ trans2 = random_transactions()
 trans2[1] = Transaction('Jesse', 'Walter', 100000000)
 message = blockchain.add_block(trans2)
 print(f'{message}\ntransações no bloco:\n{[str(x) for x in trans2]}')
+
+
+mt = blockchain.blocks[0].merkle_tree
+
+
+print(mt.transactions)
+print(len(mt.tree))
+# print(mt.tree[14])
+aux = []
+aux.append(mt.tree[8])
+while aux:
+    node = aux.pop(0)
+    if node.daddy != None:
+        aux.append(node.daddy)
+    print(node)
