@@ -27,13 +27,15 @@ print(f'{message}\ntransações no bloco:\n{[str(x) for x in trans2]}')
 
 
 mt = blockchain.blocks[0].merkle_tree
+mt_root = blockchain.blocks[0].merkle_root
 
 
-print(mt.transactions)
-print(len(mt.tree))
-# print(mt.tree[14])
+print('\nTransações: ',[str(x) for x in mt.transactions])
+print('Quantidade de nós na arvore: ',len(mt.tree))
+
 aux = []
-aux.append(mt.tree[8])
+aux.append(mt.root)
+
 while aux:
     node = aux.pop(0)
     if node.daddy != None:

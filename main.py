@@ -1,5 +1,4 @@
 from blockchain import BlockChain
-from merkle_tree import MerkleTree
 from fulfilling_transactions import random_transactions
 from transaction import Transaction
 
@@ -14,13 +13,13 @@ blockchain.print_blocks()
 
 
 # a non existent user try to send "money" to another user
-trans = random_transactions()
-trans[1] = Transaction('random', 'Walter', 100000000)
-message = blockchain.add_block(trans)
-print(f'{message}\ntransações no bloco:\n{[str(x) for x in trans]}\n')
+transac = random_transactions()
+transac[1] = Transaction('random', 'Walter', 100000000)
+message = blockchain.add_block(transac)
+print(f'{message}\ntransações no bloco:\n{[str(x) for x in transac]}\n')
 
 # an existent user try to send "money" to another user
-trans2 = random_transactions()
-trans2[1] = Transaction('Jesse', 'Walter', 100000000)
-message = blockchain.add_block(trans2)
-print(f'{message}\ntransações no bloco:\n{[str(x) for x in trans2]}')
+transac2 = random_transactions()
+transac2[1] = Transaction('Jesse', 'Walter', 100000000)
+message = blockchain.add_block(transac2)
+print(f'{message}\ntransações no bloco:\n{[str(x) for x in transac2]}')

@@ -6,6 +6,10 @@ users:dict = {
     2: 'Walter',
     3: 'Marie',
     4: 'Skyler',
+    5: 'Jesse',
+    6: 'Gus',
+    7: 'Flynn',
+    8: 'Jane'
 }
 
 def random_two_users():
@@ -17,7 +21,7 @@ def random_two_users():
     return user1, user2
 
 def random_message():
-    return randint(1,5)
+    return randint(1,10)
 
 def random_transactions():
     transactions_return = []
